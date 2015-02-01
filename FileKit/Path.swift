@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc (FKPathType) public protocol PathType {
+public protocol PathType {
     
     ///The path to the root directory
     class var root: Path { get }
@@ -41,7 +41,7 @@ import Foundation
     func child(path:String) -> Path
 }
 
-@objc (FKPath) public class Path : PathType {
+public class Path : PathType {
     
     ///Raw path to the item
     public var raw: String
@@ -91,7 +91,7 @@ import Foundation
    
     ///Check if the given path lays in the allowed scope of the filesystem
     public class func isInAllowedScope(path: PathType) -> Bool {
-        if Path.root.raw.rangeOfString(path.raw) {
+        if Path.root.raw.rangeOfString(path.raw) != nil {
             return true
         }
         
@@ -119,4 +119,9 @@ import Foundation
     public func child(path: String) -> Path {
         return Path("\(raw)/\(path)")
     }
+}
+
+///Check if both paths are equal
+public func ==(lhs: PathType, rhs: PathType) -> Bool {
+    return lhs.raw == rhs.raw
 }
