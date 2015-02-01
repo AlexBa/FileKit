@@ -121,6 +121,14 @@ public class Path : PathType {
     }
 }
 
+///Make the path printable
+extension Path : Printable {
+    
+    public var description: String {
+        return raw
+    }
+}
+
 ///Check if both paths are equal
 public func ==(lhs: PathType, rhs: PathType) -> Bool {
     return lhs.raw == rhs.raw

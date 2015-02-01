@@ -130,6 +130,14 @@ public class Item : ItemType {
     }
 }
 
+///Make the item printable
+extension Item : Printable {
+    
+    public var description: String {
+        return path.raw
+    }
+}
+
 ///Check if both items are equal
 func ==(lhs: ItemType, rhs: ItemType) -> Bool {
     return lhs.path == rhs.path
