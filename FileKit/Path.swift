@@ -125,3 +125,8 @@ public class Path : PathType {
 public func ==(lhs: PathType, rhs: PathType) -> Bool {
     return lhs.raw == rhs.raw
 }
+
+///Check if both paths are different
+public func !=(lhs: PathType, rhs: PathType) -> Bool {
+    return lhs.raw != rhs.raw
+}
