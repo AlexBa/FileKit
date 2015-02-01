@@ -88,7 +88,7 @@ public class Item : ItemType {
     }
     
     ///Initilize with raw path
-    public convenience init(raw: String) {
+    public convenience init(_ raw: String) {
         self.init(path: Path(raw))
     }
     
