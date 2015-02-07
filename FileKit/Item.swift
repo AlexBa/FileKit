@@ -16,9 +16,6 @@ public protocol ItemType  {
     ///The path on the disk
     var path: PathType { get }
     
-    ///The parent directory
-    var parent: Directory? { get }
-    
     ///The attributes of the item
     var attributes: NSDictionary? { get }
     
@@ -56,15 +53,6 @@ public class Item : ItemType {
     
     ///The path on the disk
     public var path: PathType 
-    
-    ///The parent directory
-    public var parent: Directory? {
-        if let parent = path.parent() {
-            return Directory(path: parent)
-        }
-        
-        return nil
-    }
     
     ///The attributes of the item
     public var attributes: NSDictionary? {
@@ -133,6 +121,15 @@ public class Item : ItemType {
         }
         
         return succeeded
+    }
+    
+    ///The parent directory
+    public func parent() -> Directory? {
+        if let parent = path.parent() {
+            return Directory(path: parent)
+        }
+        
+        return nil
     }
 }
 
