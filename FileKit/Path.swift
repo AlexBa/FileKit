@@ -31,9 +31,6 @@ public protocol PathType {
      ///The path's item name
     var itemName: String { get }
     
-    ///The item name's extension
-    var itemNameExtension: String { get }
-    
     ///The path to the within the scope accessible parent folder
     func parent() -> Path?
     

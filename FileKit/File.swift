@@ -25,7 +25,7 @@ public class File : Item {
         return fileManager.isExecutableFileAtPath(path.raw)
     }
     
-    ///Get the file type/ extension
+    ///Get the file type
     public var type: String {
         return path.raw.pathExtension
     }
@@ -42,6 +42,11 @@ public class File : Item {
                 writeString("")
             }
         }
+    }
+    
+    ///Create the file with an empty content
+    public func create() -> Bool {
+        return writeString("")
     }
     
     ///Read the content of the file

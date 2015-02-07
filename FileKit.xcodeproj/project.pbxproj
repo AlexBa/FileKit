@@ -82,8 +82,8 @@
 				FA3E23891A7E4DD400A7A9BD /* FileKit.h */,
 				FA3E23A01A7E4F3F00A7A9BD /* Path.swift */,
 				FA3E23A21A7E5ECA00A7A9BD /* Item.swift */,
-				FA3E23A41A7E5FFF00A7A9BD /* Directory.swift */,
 				FAD4BECC1A8643A40057E7EC /* File.swift */,
+				FA3E23A41A7E5FFF00A7A9BD /* Directory.swift */,
 				FA3E23871A7E4DD400A7A9BD /* Supporting Files */,
 			);
 			path = FileKit;
