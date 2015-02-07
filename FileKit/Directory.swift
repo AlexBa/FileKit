@@ -9,10 +9,65 @@
 import Foundation
 
 public class Directory : Item {
-    
+
     ///The root directory
     public class var root: Directory {
         return Directory(path: Path.root)
+    }
+    
+    ///The user's user directory
+    public class var user: Directory {
+        return Directory(path: Path.user)
+    }
+    
+    ///The applications directory
+    public class var applications: Directory {
+        return Directory(path: Path.applications)
+    }
+    
+    ///The user's home directory
+    public class var home: Directory {
+        return Directory(path: Path.home)
+    }
+    
+    ///The user's desktop directory
+    public class var desktop: Directory {
+        return Directory(path: Path.desktop)
+    }
+    
+    ///The user's trash directory
+    public class var trash: Directory {
+        return Directory(path: Path.trash)
+    }
+    
+    ///The user's music directory
+    public class var music: Directory {
+        return Directory(path: Path.music)
+    }
+    
+    ///The user's movies directory
+    public class var movies: Directory {
+        return Directory(path: Path.movies)
+    }
+    
+    ///The user's documents directory
+    public class var documents: Directory {
+        return Directory(path: Path.documents)
+    }
+    
+    ///The user's downloads directory
+    public class var downloads: Directory {
+        return Directory(path: Path.downloads)
+    }
+    
+    ///The user's library directory
+    public class var library: Directory {
+        return Directory(path: Path.library)
+    }
+    
+    ///The user's shared public directory
+    public class var shared: Directory {
+        return Directory(path: Path.shared)
     }
     
     ///The item names of all items
