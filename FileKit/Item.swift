@@ -51,7 +51,7 @@ public class Item : ItemType {
 
     ///The name of the item
     public var name: String {
-        return path.itemName
+        return path.components.last!
     }
     
     ///The path on the disk

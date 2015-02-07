@@ -90,19 +90,6 @@ public class Path : PathType {
         return raw.pathComponents
     }
     
-    ///The path's item name
-    public var itemName: String {
-        // Split the parts of the path
-        let components = split(raw) {$0 == "/"}
-            
-        // Return the filename
-        if components.last != "" {
-            return components.last!
-        } else {
-            return components[components.count - 2]
-        }
-    }
-    
     ///Initializer with raw path
     public required init(_ raw: String){
         self.raw = raw
