@@ -13,14 +13,14 @@ public protocol PathType {
     ///The path to the root directory
     class var root: Path { get }
     
+    ///The path to the user's home directory
+    class var home: Path { get }
+    
+    ///Search for specific paths
+    class func search(directory: NSSearchPathDirectory, domainMask: NSSearchPathDomainMask, expandTilde: Bool) -> [Path]
+    
     ///Check if the given path lays in the allowed scope of the filesystem
     class func isInAllowedScope(path: PathType) -> Bool
-    
-    ///Initializer with raw path
-    init(_ raw: String)
-    
-    ///Initializer with path components
-    init(components: [String])
     
     ///Raw path to the item
     var raw: String { get }
@@ -28,8 +28,14 @@ public protocol PathType {
     ///The path's components
     var components: [String] { get }
     
-     ///The path's item name
+    ///The path's item name
     var itemName: String { get }
+    
+    ///Initializer with raw path
+    init(_ raw: String)
+    
+    ///Initializer with path components
+    init(components: [String])
     
     ///The path to the within the scope accessible parent folder
     func parent() -> Path?
@@ -45,12 +51,24 @@ public class Path : PathType {
     
     ///The path to the root directory
     public class var root: Path {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(
-            .DocumentDirectory,
-            .UserDomainMask,
-            true)[0] as String
-            
-        return Path(documentsPath)
+        return Path("/")
+    }
+    
+    ///The path to the user's home directory
+    public class var home: Path {
+        return Path.search(.DocumentDirectory, domainMask: .UserDomainMask).first!
+    }
+    
+    ///Search for specific paths
+    public class func search(directory: NSSearchPathDirectory, domainMask: NSSearchPathDomainMask, expandTilde: Bool = true) -> [Path] {
+        var rawPaths = NSSearchPathForDirectoriesInDomains(directory, domainMask, expandTilde) as [String]
+        
+        var paths = [Path]()
+        for rawPath in rawPaths {
+            paths.append(Path(rawPath))
+        }
+      
+        return paths
     }
     
     ///The path's components
@@ -74,6 +92,11 @@ public class Path : PathType {
     ///Initializer with raw path
     public required init(_ raw: String){
         self.raw = raw
+        /*self.raw.stringByReplacingOccurrencesOfString(
+            "~",
+            withString: Path.home.raw,
+            options: NSStringCompareOptions.LiteralSearch,
+            range: nil)*/
     }
     
     ///Initializer with path components
