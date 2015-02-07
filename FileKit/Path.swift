@@ -23,10 +23,10 @@ public protocol PathType {
     init(components: [String])
     
     ///The path to the parent folder
-    func parent() -> Path?
+    func parent() -> PathType?
     
     ///Create a new path out of the current path and the given child
-    func child(path:String) -> Path
+    func child(path:String) -> PathType
 }
 
 public class Path : PathType {
@@ -92,7 +92,7 @@ public class Path : PathType {
     }
    
     ///The path to the parent folder
-    public func parent() -> Path? {
+    public func parent() -> PathType? {
         if self != Path.root || raw != "" {
             // Remove the last path component
             var components = raw.pathComponents
@@ -106,7 +106,7 @@ public class Path : PathType {
     }
     
     ///Create a new path out of the current path and the given child path
-    public func child(path: String) -> Path {
+    public func child(path: String) -> PathType {
         return Path("\(raw)/\(path)")
     }
 }
