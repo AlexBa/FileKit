@@ -44,7 +44,7 @@ public protocol ItemType  {
 public class Item : ItemType {
     
     ///The filemanager of the item
-    var fileManager = NSFileManager.defaultManager()
+    public let fileManager = NSFileManager.defaultManager()
 
     ///The name of the item
     public var name: String {
@@ -89,15 +89,15 @@ public class Item : ItemType {
     
     ///Check if the item exists on the disk
     public func exits() -> Bool {
-        return fileManager.fileExistsAtPath(self.path.raw)
+        return fileManager.fileExistsAtPath(path.raw)
     }
     
     ///Rename the item on the disk
     public func rename(toName: String) -> Bool {
         var components = path.components
-        components[components.count-1] = toName
-        let newPath = Path(components: components)
+        components[components.count - 1] = toName
         
+        let newPath = Path(components: components)
         return move(newPath)
     }
     
