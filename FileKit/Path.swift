@@ -36,9 +36,29 @@ public class Path : PathType {
         return Path("/")
     }
     
+    ///The path to the user's user directory
+    public class var user: Path {
+        return Path.search(.UserDirectory, domainMask: .UserDomainMask).first!
+    }
+    
     ///The path to the user's home directory
     public class var home: Path {
         return Path.search(.DocumentDirectory, domainMask: .UserDomainMask).first!
+    }
+    
+    ///The path to the user's desktop directory
+    public class var desktop: Path {
+        return Path.search(.DesktopDirectory, domainMask: .UserDomainMask).first!
+    }
+    
+    ///The path to the user's trash directory
+    public class var trash: Path {
+        return Path.search(.TrashDirectory, domainMask: .UserDomainMask).first!
+    }
+    
+    ///The path to the applications directory
+    public class var applications: Path {
+        return Path.search(.AllApplicationsDirectory, domainMask: .UserDomainMask).first!
     }
     
     ///Search for specific paths
