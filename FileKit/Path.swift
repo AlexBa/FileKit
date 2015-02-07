@@ -73,15 +73,6 @@ public class Path : PathType {
         return paths
     }
     
-    ///Check if the given path lays in the allowed scope of the filesystem
-    public class func isInAllowedScope(path: PathType) -> Bool {
-        if Path.root.raw.rangeOfString(path.raw) != nil {
-            return true
-        }
-        
-        return false;
-    }
-    
     ///Raw path to the item
     public var raw: String
     
@@ -100,21 +91,18 @@ public class Path : PathType {
         raw = "/".join(components)
     }
    
-    ///The path to the within the scope accessible parent folder
+    ///The path to the parent folder
     public func parent() -> Path? {
-        // Move only to the parent if we are not at the root directory
-        if Path.isInAllowedScope(self) {
+        if self != Path.root || raw != "" {
             // Remove the last path component
             var components = raw.pathComponents
             components.removeLast()
-            
-            // Combine the components to a new path
             let path:String = "/".join(components);
             
             return Path(path);
-        } else {
-            return nil
         }
+        
+        return nil
     }
     
     ///Create a new path out of the current path and the given child path
