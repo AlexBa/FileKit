@@ -102,10 +102,4 @@ public class Directory : Item {
     public func count() -> Int? {
         return fileManager.contentsOfDirectoryAtPath(path.raw, error: &lastError)?.count
     }
-    
-    
-    
-    
-    
-    
 }

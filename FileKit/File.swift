@@ -33,20 +33,39 @@ public class File : Item {
     ///Modifiy the content of the file
     public var content: String? {
         get {
-            return readString()
+            return read()
         }
         set(newContent) {
             if newContent != nil {
-                writeString(newContent!)
+                write(newContent!)
             } else {
-                writeString("")
+                delete()
             }
         }
     }
     
     ///Create the file with an empty content
     public func create() -> Bool {
-        return writeString("")
+        return write("")
+    }
+    
+    ///Read the contenr of the file
+    public func read(encoding: NSStringEncoding = NSUTF8StringEncoding) -> String? {
+        return String(contentsOfFile: path.raw, encoding: NSUTF8StringEncoding, error: &lastError)
+    }
+    
+    ///Write the string into the file
+    public func write(string: String, encoding: NSStringEncoding = NSUTF8StringEncoding) -> Bool {
+        return string.writeToFile(path.raw, atomically: false, encoding: encoding, error: &lastError)
+    }
+    
+    ///Append the string onto the content of the file
+    public func append(string: String, encoding: NSStringEncoding = NSUTF8StringEncoding) -> Bool {
+        if let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            return appendData(data)
+        }
+        
+        return false
     }
     
     ///Read the content of the file
@@ -84,25 +103,6 @@ public class File : Item {
             
                 return writeData(data)
             }
-        }
-        
-        return false
-    }
-    
-    ///Read the contenr of the file
-    public func readString(encoding: NSStringEncoding = NSUTF8StringEncoding) -> String? {
-        return String(contentsOfFile: path.raw, encoding: NSUTF8StringEncoding, error: &lastError)
-    }
-    
-    ///Write the string into the file
-    public func writeString(string: String, encoding: NSStringEncoding = NSUTF8StringEncoding) -> Bool {
-        return string.writeToFile(path.raw, atomically: false, encoding: encoding, error: &lastError)
-    }
-    
-    ///Append the string onto the content of the file
-    public func appendString(string: String, encoding: NSStringEncoding = NSUTF8StringEncoding) -> Bool {
-        if let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-            return appendData(data)
         }
         
         return false
