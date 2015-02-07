@@ -16,58 +16,102 @@ public class Directory : Item {
     }
     
     ///The user's user directory
-    public class var user: Directory {
-        return Directory(path: Path.user)
+    public class var user: Directory? {
+        if let user = Path.user {
+            return Directory(path: user)
+        }
+        
+        return nil
     }
     
     ///The applications directory
-    public class var applications: Directory {
-        return Directory(path: Path.applications)
+    public class var applications: Directory? {
+        if let applications = Path.applications {
+            return Directory(path: applications)
+        }
+        
+        return nil
     }
     
     ///The user's home directory
-    public class var home: Directory {
-        return Directory(path: Path.home)
+    public class var home: Directory? {
+        if let home = Path.home {
+            return Directory(path: home)
+        }
+        
+        return nil
     }
     
     ///The user's desktop directory
-    public class var desktop: Directory {
-        return Directory(path: Path.desktop)
+    public class var desktop: Directory? {
+        if let desktop = Path.desktop {
+            return Directory(path: desktop)
+        }
+        
+        return nil
     }
     
     ///The user's trash directory
-    public class var trash: Directory {
-        return Directory(path: Path.trash)
+    public class var trash: Directory? {
+        if let trash = Path.trash {
+            return Directory(path: trash)
+        }
+        
+        return nil
     }
     
     ///The user's music directory
-    public class var music: Directory {
-        return Directory(path: Path.music)
+    public class var music: Directory? {
+        if let music = Path.music {
+            return Directory(path: music)
+        }
+        
+        return nil
     }
     
     ///The user's movies directory
-    public class var movies: Directory {
-        return Directory(path: Path.movies)
+    public class var movies: Directory? {
+        if let movies = Path.movies {
+            return Directory(path: movies)
+        }
+        
+        return nil
     }
     
     ///The user's documents directory
-    public class var documents: Directory {
-        return Directory(path: Path.documents)
+    public class var documents: Directory? {
+        if let documents = Path.documents {
+            return Directory(path: documents)
+        }
+        
+        return nil
     }
     
     ///The user's downloads directory
-    public class var downloads: Directory {
-        return Directory(path: Path.downloads)
+    public class var downloads: Directory? {
+        if let downloads = Path.user {
+            return Directory(path: downloads)
+        }
+        
+        return nil
     }
     
     ///The user's library directory
-    public class var library: Directory {
-        return Directory(path: Path.library)
+    public class var library: Directory? {
+        if let library = Path.library {
+            return Directory(path: library)
+        }
+        
+        return nil
     }
     
     ///The user's shared public directory
-    public class var shared: Directory {
-        return Directory(path: Path.shared)
+    public class var shared: Directory? {
+        if let shared = Path.shared {
+            return Directory(path: shared)
+        }
+        
+        return nil
     }
     
     ///The item names of all items
