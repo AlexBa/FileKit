@@ -46,7 +46,7 @@ public class File : Item {
     
     ///Create the file with an empty content
     public func create() -> Bool {
-        return write("")
+        return fileManager.createFileAtPath(path.raw, contents: nil, attributes: nil)
     }
     
     ///Read the contenr of the file
