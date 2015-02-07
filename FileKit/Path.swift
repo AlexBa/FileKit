@@ -127,7 +127,8 @@ public class Path : PathType {
             // Remove the last path component
             var components = raw.pathComponents
             components.removeLast()
-            let path:String = "/".join(components);
+            var path = "/".join(components);
+            path = dropFirst(path) // Remove the slash at the beginning
             
             return Path(path);
         }
