@@ -11,7 +11,7 @@ import Foundation
 public protocol PathType {
     
     ///The raw path to the item
-    var raw: String { get }
+    var raw: String { get set }
     
     ///The path's components
     var components: [String] { get }
