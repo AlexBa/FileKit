@@ -10,26 +10,11 @@ import Foundation
 
 public protocol PathType {
     
-    ///The path to the root directory
-    class var root: Path { get }
-    
-    ///The path to the user's home directory
-    class var home: Path { get }
-    
-    ///Search for specific paths
-    class func search(directory: NSSearchPathDirectory, domainMask: NSSearchPathDomainMask, expandTilde: Bool) -> [Path]
-    
-    ///Check if the given path lays in the allowed scope of the filesystem
-    class func isInAllowedScope(path: PathType) -> Bool
-    
-    ///Raw path to the item
+    ///The raw path to the item
     var raw: String { get }
     
     ///The path's components
     var components: [String] { get }
-    
-    ///The path's item name
-    var itemName: String { get }
     
     ///Initializer with raw path
     init(_ raw: String)
@@ -37,17 +22,14 @@ public protocol PathType {
     ///Initializer with path components
     init(components: [String])
     
-    ///The path to the within the scope accessible parent folder
+    ///The path to the parent folder
     func parent() -> Path?
     
-    ///Create a new path out of the current path and the given child path
+    ///Create a new path out of the current path and the given child
     func child(path:String) -> Path
 }
 
 public class Path : PathType {
-    
-    ///Raw path to the item
-    public var raw: String
     
     ///The path to the root directory
     public class var root: Path {
@@ -71,6 +53,18 @@ public class Path : PathType {
         return paths
     }
     
+    ///Check if the given path lays in the allowed scope of the filesystem
+    public class func isInAllowedScope(path: PathType) -> Bool {
+        if Path.root.raw.rangeOfString(path.raw) != nil {
+            return true
+        }
+        
+        return false;
+    }
+    
+    ///Raw path to the item
+    public var raw: String
+    
     ///The path's components
     public var components: [String] {
         return raw.pathComponents
@@ -92,11 +86,6 @@ public class Path : PathType {
     ///Initializer with raw path
     public required init(_ raw: String){
         self.raw = raw
-        /*self.raw.stringByReplacingOccurrencesOfString(
-            "~",
-            withString: Path.home.raw,
-            options: NSStringCompareOptions.LiteralSearch,
-            range: nil)*/
     }
     
     ///Initializer with path components
@@ -104,15 +93,6 @@ public class Path : PathType {
         raw = "/".join(components)
     }
    
-    ///Check if the given path lays in the allowed scope of the filesystem
-    public class func isInAllowedScope(path: PathType) -> Bool {
-        if Path.root.raw.rangeOfString(path.raw) != nil {
-            return true
-        }
-        
-        return false;
-    }
-    
     ///The path to the within the scope accessible parent folder
     public func parent() -> Path? {
         // Move only to the parent if we are not at the root directory
