@@ -135,12 +135,7 @@ public class Directory : Item {
         
         return temp
     }
-    
-    ///Initilizer with path
-    public required init(path: PathType) {
-        super.init(path: path)
-    }
-    
+   
     ///Create a new directory with the given attributes
     public func create(attributes: [NSObject: AnyObject]? = nil, intermediate: Bool = true) -> Bool {
         return fileManager.createDirectoryAtPath(
@@ -155,6 +150,11 @@ public class Directory : Item {
     public func child(path: String) -> Directory {
         let childPath = self.path.child(path)
         return Directory(path: childPath)
+    }
+    
+    ///Count the amounts of items
+    public func count() -> Int? {
+        return fileManager.contentsOfDirectoryAtPath(path.raw, error: &lastError)?.count
     }
     
     ///Add the item into the directory
@@ -187,18 +187,5 @@ public class Directory : Item {
         }
         
         return nil
-    }
-    
-    ///Remove the item with the specific name
-   /* public func removeItem(#name: String) -> Bool {
-        
-        
-        
-        
-    }*/
-    
-    ///Count the amounts of items
-    public func count() -> Int? {
-        return fileManager.contentsOfDirectoryAtPath(path.raw, error: &lastError)?.count
     }
 }
