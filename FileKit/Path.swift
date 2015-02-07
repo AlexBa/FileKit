@@ -74,11 +74,6 @@ public class Path : PathType {
         }
     }
     
-    ///The item name's extension
-    public var itemNameExtension: String {
-        return raw.pathExtension
-    }
-    
     ///Initializer with raw path
     public required init(_ raw: String){
         self.raw = raw

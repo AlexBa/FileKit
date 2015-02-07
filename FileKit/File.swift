@@ -25,9 +25,9 @@ public class File : Item {
         return fileManager.isExecutableFileAtPath(path.raw)
     }
     
-    ///Get the file type
-    public var type: String? {
-        return attributes?.fileType()
+    ///Get the file type/ extension
+    public var type: String {
+        return path.raw.pathExtension
     }
     
     ///Modifiy the content of the file
