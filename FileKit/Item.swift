@@ -22,9 +22,6 @@ public protocol ItemType  {
     ///The attributes of the item
     var attributes: NSDictionary? { get }
     
-    ///The size of the item
-    var size: UInt64? { get }
-    
     ///The error of the last operation
     var lastError: NSError? { get }
     
@@ -79,6 +76,11 @@ public class Item : ItemType {
         return attributes?.fileSize()
     }
     
+    ///The creation data of the item
+    public var createdAt: NSDate? {
+        return attributes?.fileCreationDate()
+    }
+    
     ///The error of the last operation
     public var lastError: NSError?
     
@@ -94,7 +96,7 @@ public class Item : ItemType {
     
     ///Delete the item on the disk
     public func delete() -> Bool {
-        return fileManager.removeItemAtPath(self.path.raw, error: &lastError)
+        return fileManager.removeItemAtPath(path.raw, error: &lastError)
     }
     
     ///Check if the item exists on the disk
@@ -104,29 +106,33 @@ public class Item : ItemType {
     
     ///Rename the item on the disk
     public func rename(toName: String) -> Bool {
-        let oldPath = path
-        var components = oldPath.components
-        
+        var components = path.components
         components[components.count-1] = toName
         let newPath = Path(components: components)
-        let moved = move(newPath)
         
-        if moved && oldPath != newPath {
-            path = newPath
-            return true
-        }
-      
-        return false
+        return move(newPath)
     }
     
     ///Move the item to the given path on the disk
     public func move(toPath: PathType) -> Bool {
-        return fileManager.moveItemAtPath(path.raw, toPath: toPath.raw, error: &lastError)
+        let succeeded = fileManager.moveItemAtPath(path.raw, toPath: toPath.raw, error: &lastError)
+        
+        if succeeded {
+            path = toPath
+        }
+        
+        return succeeded
     }
     
     ///Copy the content to a file at the given path
     public func copy(toPath: PathType) -> Bool {
-        return fileManager.copyItemAtPath(path.raw, toPath: toPath.raw, error: &lastError)
+        let succeeded = fileManager.copyItemAtPath(path.raw, toPath: toPath.raw, error: &lastError)
+        
+        if succeeded {
+            path = toPath
+        }
+        
+        return succeeded
     }
 }
 
