@@ -38,12 +38,20 @@ var pathToImage = Path.home.child("pictures/funny-cat.png")
 var file = File(path: pathToImage)
 ```
 
+### Copy a file into a directory
+```swift
+var file = File("~/Pictures/hilarious-duck.png")
+if var directory = Directory.desktop? {
+    directory.add(file)
+}
+```
+
 ### List the content of the home directory
 ```swift
 if var items = Directory.home?.content {
-for item in items {
-println(item.name)
-}
+    for item in items {
+        println(item.name)
+    }
 }
 ```
 
