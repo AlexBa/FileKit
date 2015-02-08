@@ -65,7 +65,7 @@ public class Item : ItemType {
     }
     
     ///The creation data of the item
-    public var createdAt: NSDate? {
+    public var created: NSDate? {
         return attributes?.fileCreationDate()
     }
     
