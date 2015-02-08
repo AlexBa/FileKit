@@ -119,6 +119,11 @@ extension Path {
         return Path.search(.MoviesDirectory, domainMask: .UserDomainMask).first
     }
     
+    ///The path to the user's pictures directory
+    public class var pictures: Path? {
+        return Path.search(.PicturesDirectory , domainMask: .UserDomainMask).first
+    }
+    
     ///The path to the user's documents directory
     public class var documents: Path? {
         return Path.search(.DocumentDirectory, domainMask: .UserDomainMask).first

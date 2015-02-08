@@ -198,6 +198,15 @@ extension Directory {
         return nil
     }
     
+    ///The user's photos directory
+    public class var pictures: Directory? {
+        if let pictures = Path.pictures {
+            return Directory(path: pictures)
+        }
+        
+        return nil
+    }
+    
     ///The user's documents directory
     public class var documents: Directory? {
         if let documents = Path.documents {
