@@ -31,6 +31,54 @@ public protocol PathType {
 
 public class Path : PathType {
     
+    ///Raw path to the item
+    public var raw: String
+    
+    ///The path's components
+    public var components: [String] {
+        return raw.pathComponents
+    }
+    
+    ///Initializer with raw path
+    public required init(_ raw: String){
+        self.raw = raw
+    }
+    
+    ///Initializer with path components
+    public required init(components: [String]) {
+        raw = "/".join(components)
+    }
+   
+    ///The path to the parent folder
+    public func parent() -> PathType? {
+        if self != Path.root || raw != "" {
+            // Remove the last path component
+            var components = raw.pathComponents
+            components.removeLast()
+            var path = "/".join(components);
+            path = dropFirst(path) // Remove the slash at the beginning
+            
+            return Path(path);
+        }
+        
+        return nil
+    }
+    
+    ///Create a new path out of the current path and the given child path
+    public func child(path: String) -> PathType {
+        return Path("\(raw)/\(path)")
+    }
+}
+
+extension Path : Printable {
+    
+    public var description: String {
+        return raw
+    }
+}
+
+extension Path {
+    
     ///The path to the root directory
     public class var root: Path {
         return Path("/")
@@ -99,54 +147,8 @@ public class Path : PathType {
         for rawPath in rawPaths {
             paths.append(Path(rawPath))
         }
-      
-        return paths
-    }
-    
-    ///Raw path to the item
-    public var raw: String
-    
-    ///The path's components
-    public var components: [String] {
-        return raw.pathComponents
-    }
-    
-    ///Initializer with raw path
-    public required init(_ raw: String){
-        self.raw = raw
-    }
-    
-    ///Initializer with path components
-    public required init(components: [String]) {
-        raw = "/".join(components)
-    }
-   
-    ///The path to the parent folder
-    public func parent() -> PathType? {
-        if self != Path.root || raw != "" {
-            // Remove the last path component
-            var components = raw.pathComponents
-            components.removeLast()
-            var path = "/".join(components);
-            path = dropFirst(path) // Remove the slash at the beginning
-            
-            return Path(path);
-        }
         
-        return nil
-    }
-    
-    ///Create a new path out of the current path and the given child path
-    public func child(path: String) -> PathType {
-        return Path("\(raw)/\(path)")
-    }
-}
-
-///Make the path printable
-extension Path : Printable {
-    
-    public var description: String {
-        return raw
+        return paths
     }
 }
 
