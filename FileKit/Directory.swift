@@ -10,36 +10,73 @@ import Foundation
 
 public class Directory : Item {
 
-    ///The item names of all items
-    public var itemNames: [String]? {
-        return fileManager.contentsOfDirectoryAtPath(path.raw, error: &lastError) as? [String]
-    }
-    
-    ///All items of the directory
-    public var items: [Item]? {
-        if itemNames == nil {
+    ///The content of the directory
+    public var content: [Item]? {
+        if !exits() {
             return nil
         }
         
-        var temp = [Item]()
-        for name in itemNames! {
-            
-            let itemPath = Path("\(path)/\(name)")
-            let item = Item(path: itemPath)
-            temp.append(item)
+        var result = [Item]()
+        let content = fileManager.contentsOfDirectoryAtPath(path.raw, error: &lastError) as? [String]
+        
+        if content?.count > 0 {
+            for name in content! {
+                let path = Path("\(self.path)/\(name)")
+                
+                var isDirectory: ObjCBool = false
+                if fileManager.fileExistsAtPath(path.raw, isDirectory: &isDirectory) {
+                    
+                    if isDirectory {
+                        result.append(Directory(path: path))
+                    } else {
+                        result.append(File(path: path))
+                    }
+                }
+            }
         }
         
-        return temp
+        return result
     }
-   
-    ///Create a new directory with the given attributes
-    public func create(attributes: [NSObject: AnyObject]? = nil, intermediate: Bool = true) -> Bool {
+    
+    ///Count the amount of items
+    public var count: Int? {
+        return fileManager.contentsOfDirectoryAtPath(path.raw, error: &lastError)?.count
+    }
+
+    ///Create a new directory on the disk
+    public func create(intermediate: Bool = true) -> Bool {
         return fileManager.createDirectoryAtPath(
             path.raw,
             withIntermediateDirectories: intermediate,
-            attributes: attributes,
+            attributes: nil,
             error: &lastError
         )
+    }
+    
+    ///Add a new sub file
+    public func createSubFile(name: String) -> File? {
+        if exits() {
+            let path = self.path.child(name)
+            let file = File(path: path)
+            file.create()
+            
+            return file
+        }
+        
+        return nil
+    }
+    
+    ///Add a new sub directory
+    public func createSubDirectory(name: String) -> Directory? {
+        if exits() {
+            let path = self.path.child(name)
+            let directory = Directory(path: path)
+            directory.create()
+            
+            return directory
+        }
+        
+        return nil
     }
     
     ///Get the child directory
@@ -48,13 +85,8 @@ public class Directory : Item {
         return Directory(path: childPath)
     }
     
-    ///Count the amounts of items
-    public func count() -> Int? {
-        return fileManager.contentsOfDirectoryAtPath(path.raw, error: &lastError)?.count
-    }
-    
     ///Add the item into the directory
-    public func addItem(item: ItemType, copy: Bool = false) -> Bool {
+    public func add(item: ItemType, copy: Bool = false) -> Bool {
         
         var succeeded = false
         
@@ -74,7 +106,7 @@ public class Directory : Item {
     }
     
     ///Get the item with the specific name
-    public func getItem(#name: String) -> Item? {
+    public func get(name: String) -> Item? {
         let itemPath = Path("\(path)/\(name)")
         let item = Item(path: itemPath)
         
@@ -82,6 +114,16 @@ public class Directory : Item {
             return item
         }
         
+        return nil
+    }
+    
+    ///Remove an item by name from the directory
+    public func remove(name: String) -> Item? {
+        if let item = get(name) {
+            item.delete()
+            return item
+        }
+    
         return nil
     }
 }
